@@ -1,14 +1,16 @@
 package com.imp.progFuncional.lambdas.ejercicio1;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class TestAlumno {
     /*Mediante programacion funcional realizar las siguientes operaciones con la lista:
     * Listar todos los alumnos
     * Obtener e imprimir a todos los alumnos que inicien con L o G
     * Imprimir el numero de alumnos registrados
-    * Imprimir el numero con menor edad
+    * Imprimir el alumno con menor edad
     * Imprimir el alumno con mayor edad
     * Listar los alumnos en donde el nombre del curso inscrito termine con S
     * Listar alumnos que tienen un curso que contiene la A
@@ -19,6 +21,7 @@ public class TestAlumno {
 
     public static void main(String[] args) {
         iniciarLista();
+        System.out.println(alumnoMenorID());
     }
     static void iniciarLista() {
         alumnos.add(new Alumno(1,"David","2894019491","Romero","SpringBoot API-REST",15,18));
@@ -39,5 +42,37 @@ public class TestAlumno {
         alumnos.stream()
                 .filter(a -> a.getNombre().charAt(0) == ini1 || a.getNombre().charAt(0) == ini2)
                 .forEach(System.out::println);
+    }
+    static String cantAlumnosRegistrados() {
+       return "Cantidad de alumnos registrados: "+alumnos.stream().count();
+    }
+    static String alumnoMenorEdad() {
+        //return "Alumno con menor edad: "+alumnos.stream().min((a1,a2) -> a1.getEdad() - a2.getEdad());
+        return "Alumno con menor edad: "+alumnos.stream().min(Comparator.comparingInt(Alumno::getEdad));
+    }
+    static String alumnoMayorEdad() {
+        return "Alumno con mayor edad: "+alumnos.stream().max(Comparator.comparingInt(Alumno::getEdad));
+    }
+    static Optional<Alumno> primerAlumno() {
+        return alumnos.stream().findFirst();
+    }
+    static void alumnosCursoFinal(String termina) {
+        System.out.println("Alumnos en donde el curso inscrito termina en: "+termina);
+        alumnos.stream()
+                .filter(a -> a.getNombreCurso().endsWith(termina))
+                .forEach(System.out::println);
+    }
+    static void cursoContiene(String letra) {
+        alumnos.stream()
+                .filter(a -> a.getNombreCurso().contains(letra))
+                .forEach(System.out::println);
+    }
+    static void alumnoLongNombre(int size) {
+        alumnos.stream()
+                .filter(a -> a.getNombre().length() > size)
+                .forEach(System.out::println);
+    }
+    static String alumnoMenorID() {
+        return "Alumno con menor ID: "+alumnos.stream().min(Comparator.comparingInt(Alumno::getId));
     }
 }
