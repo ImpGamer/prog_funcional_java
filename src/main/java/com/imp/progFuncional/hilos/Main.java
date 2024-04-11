@@ -11,6 +11,8 @@ public class Main {
         Thread.sleep(1000*2);
         scraping.start();
         //No va a esperar a que el hilo termine, se ejecuta en paralelo a el
-        System.out.println("Fin del proceso");
+        if(scraping.isDaemon()) {
+            System.out.println("Hilo finalizado");
+        }
     }
 }
